@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module led_test3;
+module top_tb;
     wire       clk;
     wire [9:0] q;
     wire [7:0] led_out;
@@ -22,7 +22,7 @@ module led_test3;
     led u_led7 (q[7], led_out[7]);
 
     initial begin
-        $dumpfile("pl3.vcd");
+        $dumpfile("top_tb.vcd");
         $dumpvars;
     end
 
