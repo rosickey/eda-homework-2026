@@ -51,6 +51,9 @@ students/240205123/.student.yml
 | 240205442 | 毛振杰 | 2402054 |
 | 240205445 | 陈博睿 | 2402054 |
 
+## [第一次作业](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW01)
+
+
 ## 一、必须遵守的规则
 
 每位同学使用自己的 GitHub 账号、9 位完整学号、学号分支和个人目录。例如，11 专业 1 号学生的学号为 `240201101`：
