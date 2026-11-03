@@ -315,6 +315,7 @@ git status
 ```
 
 如有未处理的本地改动，先确认并妥善保存；不要直接覆盖文件。确认可以同步后执行：
+每次执行一条指令，确认无误后，再继续！
 
 ```bash
 git fetch upstream
@@ -322,7 +323,6 @@ git switch 240201101
 git merge --no-edit upstream/main
 ```
 
-已经在仓库内时，不需要再次执行 `cd eda-homework-2026`。如果发生合并冲突或其他错误，停止操作并保留提示，请教师协助；不要用强制推送或硬重置解决。
 
 ### 3. 创建作业目录，放入需要提交的文件
 
@@ -332,7 +332,7 @@ git merge --no-edit upstream/main
 mkdir -p students/240201101/HW01
 ```
 
-将要求的文件放入该目录。以下只是结构示例，文件名应按实际任务调整：
+执行上述命令后，再鼠标操作，将要求的文件放入上述目录。以下只是结构示例，文件名应按实际任务调整：
 
 | 示例路径 | 说明 |
 | --- | --- |
@@ -340,8 +340,8 @@ mkdir -p students/240201101/HW01
 | `students/240201101/HW01/top.v` | 如任务要求 Verilog 源代码，可放在此处 |
 | `students/240201101/HW01/top_tb.v` | 如任务要求 testbench，可放在此处 |
 | `students/240201101/HW01/report.pdf` | 仅在任务要求报告时提交 |
-| `students/240201101/HW02/` | 后续第二次作业目录，不是新分支 |
 
+后续作业将目录和提交信息中的 `HW01` 换成相应编号。
 不要把别人的文件或课程公共文件复制进本次提交中。提交前保存编辑器、仿真软件或工程中的最新修改，并按作业要求完成本地检查。
 
 ### 4. 检查并提交
@@ -369,7 +369,8 @@ git push origin 240201101
 
 ### 5. 创建作业 PR
 
-PR 方向仍为本人 Fork 的学号分支，到 `rosickey/eda-homework-2026` 的 `main`。
+在 GitHub 打开自己的 页面仓库，第4步如果正确，页面会出现**Compare & pull request**横幅。
+ 点击 **Compare & pull request**；没有提示时可通过 **Contribute → Open pull request** 或 **Pull requests → New pull request** 进入比较页面，必要时选择 **compare across forks**。
 
 标题格式为 `[学号] 作业编号 - 姓名`，例如：
 
@@ -402,8 +403,6 @@ git push origin 240201101
 ```
 
 原 PR 会自动更新；已启用的检查也会重新运行。若原 PR 已合并，先同步教师仓库，再按教师要求提交修订并创建新的 PR。
-
-需要提交报告或导出图纸的作业，修改源文件后记得重新生成对应输出文件。
 
 ## 六、常见问题
 
