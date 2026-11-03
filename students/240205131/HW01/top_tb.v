@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-// 8 路流水灯：1 个 cd4017 + 8 个 led，方波由 clk_gen 产生
+
 module top_tb;
 	wire       clk;
 	wire       carry_out;
