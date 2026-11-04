@@ -1,7 +1,12 @@
-module led(clk,L);
+module led(clk,q);
 	input clk;
-	output L;
+	output reg q;
 
-	assign L = clk;
-
+	always@(*)
+	begin
+		if(clk==1)
+			q=1;
+		else
+			q=0;
+	end
 endmodule

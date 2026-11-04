@@ -1,5 +1,4 @@
-module clk_gen(clk);
-	output clk;	
+module clk_gen(output clk);
 	reg clk;
 	initial
 	begin
