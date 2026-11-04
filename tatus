@@ -1,0 +1,96 @@
+[1mdiff --git a/students/students/240205325/HW01/cd4017.v b/students/students/240205325/HW01/cd4017.v[m
+[1mdeleted file mode 100644[m
+[1mindex 308644f..0000000[m
+[1m--- a/students/students/240205325/HW01/cd4017.v[m
+[1m+++ /dev/null[m
+[36m@@ -1,20 +0,0 @@[m
+[31m-module cd4017(clk, reset, inhibit, carry_out, q);[m
+[31m-		input clk, reset, inhibit;[m
+[31m-		output carry_out;[m
+[31m-		output [9:0] q;[m
+[31m-		reg [3:0] count;[m
+[31m-		always@(posedge clk or posedge reset)[m
+[31m-		begin[m
+[31m-				if(reset)[m
+[31m-					count <= 0;[m
+[31m-				else if(!inhibit)[m
+[31m-						begin[m
+[31m-						if(count == 9)[m
+[31m-								count <= 0;[m
+[31m-						else[m
+[31m-								count <= count+1;[m
+[31m-						end[m
+[31m-		end[m
+[31m-		assign carry_out = (count == 9);[m
+[31m-		assign q = 10'b00_0000_0001 << count;[m
+[31m-endmodule[m
+\ No newline at end of file[m
+[1mdiff --git a/students/students/240205325/HW01/clk_gen.v b/students/students/240205325/HW01/clk_gen.v[m
+[1mdeleted file mode 100644[m
+[1mindex e4236ef..0000000[m
+[1m--- a/students/students/240205325/HW01/clk_gen.v[m
+[1m+++ /dev/null[m
+[36m@@ -1,8 +0,0 @@[m
+[31m-module clk_gen(clk);[m
+[31m-		output  reg clk;[m
+[31m-		initial[m
+[31m-		begin[m
+[31m-				clk=0;[m
+[31m-				forever #10 clk=~clk;[m
+[31m-		end[m
+[31m-endmodule[m
+\ No newline at end of file[m
+[1mdiff --git a/students/students/240205325/HW01/led.v b/students/students/240205325/HW01/led.v[m
+[1mdeleted file mode 100644[m
+[1mindex bdb26c7..0000000[m
+[1m--- a/students/students/240205325/HW01/led.v[m
+[1m+++ /dev/null[m
+[36m@@ -1,5 +0,0 @@[m
+[31m-module led(clk,out);[m
+[31m-		input clk;[m
+[31m-		output out;[m
+[31m-		assign out = clk;[m
+[31m-endmodule[m
+\ No newline at end of file[m
+[1mdiff --git a/students/students/240205325/HW01/top_tb.v b/students/students/240205325/HW01/top_tb.v[m
+[1mdeleted file mode 100644[m
+[1mindex 59cd7b8..0000000[m
+[1m--- a/students/students/240205325/HW01/top_tb.v[m
+[1m+++ /dev/null[m
+[36m@@ -1,31 +0,0 @@[m
+[31m-module top_tb;[m
+[31m-		wire clk;[m
+[31m-		wire [9:0] q;[m
+[31m-		wire carry_out;[m
+[31m-		wire led0,led1,led2,led3,led4,led5,led6,led7;[m
+[31m-		reg reset;[m
+[31m-		reg inhibit;[m
+[31m-[m
+[31m-		clk_gen u_clk(clk);[m
+[31m-[m
+[31m-		cd4017 u_cd4017(clk,reset,inhibit,carry_out,q);[m
+[31m-[m
+[31m-		led u_led0(q[0],led0);[m
+[31m-		led u_led1(q[1],led1);[m
+[31m-		led u_led2(q[2],led2);[m
+[31m-		led u_led3(q[3],led3);[m
+[31m-		led u_led4(q[4],led4);[m
+[31m-		led u_led5(q[5],led5);[m
+[31m-		led u_led6(q[6],led6);[m
+[31m-		led u_led7(q[7],led7);[m
+[31m-[m
+[31m-		initial[m
+[31m-		begin[m
+[31m-				$dumpfile("top_tb.vcd");[m
+[31m-				$dumpvars(0,top_tb);[m
+[31m-				reset=1'b1;[m
+[31m-				inhibit=1'b0;[m
+[31m-				#10 reset=1'b0;[m
+[31m-				#230 $finish;[m
+[31m-		end[m
+[31m-endmodule[m
+\ No newline at end of file[m
+[1mdiff --git "a/students/students/240205325/HW01/\346\263\242\345\275\242\345\233\276.png" "b/students/students/240205325/HW01/\346\263\242\345\275\242\345\233\276.png"[m
+[1mdeleted file mode 100644[m
+[1mindex 8fea964..0000000[m
+Binary files "a/students/students/240205325/HW01/\346\263\242\345\275\242\345\233\276.png" and /dev/null differ
