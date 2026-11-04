@@ -6,6 +6,51 @@
 
 **第一次提交只注册身份；注册通过后，再提交课程作业。** 本说明不包含具体实验题目，`HW01`、`HW02` 及文件名均为提交流程示例，不代表已发布的作业。具体任务、软件版本、提交格式和截止时间以教师发布的要求为准。
 
+## 第一次提交：注册学号与 GitHub 用户名
+
+
+## 正确格式
+
+```yaml
+student_id: "240205123"
+name: "张三"
+github_username: "zhangsan123"
+```
+
+文件位置：
+
+```text
+students/240205123/.student.yml
+```
+
+分支名称：
+
+```text
+240205123
+```
+
+> `.student.yml` 内容错误时，直接修改后 `commit`、`push` 即可，不需要重新创建 PR。
+> 分支名错误时，建议用本人9位学号重新建立分支并创建新 PR，同时关闭原错误 PR。
+> 同一学生只保留一个正确的注册 PR。
+
+# 以下同学未提交
+
+| 学号 | 姓名 | 班级 |
+| --- | --- | --- |
+| 240205327 | 朱志鹏 | 2402053 |
+| 240205345 | 单捷 | 2402053 |
+| 240205417 | 谌鸿亮 | 2402054 |
+| 240205437 | 李寒峰 | 2402054 |
+| 240205442 | 毛振杰 | 2402054 |
+| 240205445 | 陈博睿 | 2402054 |
+
+## [第一次作业HW01](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW01)
+
+- 1.作业严格按照文件名规则提交！
+- 2.代码风格严格按照课本统一标准。例如，不能使用“.” .clk这种形式表示参量
+- 3.不符合merge合并都已经reverse撤销
+- 4.请严格按照上述要求修改，检查后，再次慎重提交PR
+
 ## 一、必须遵守的规则
 
 每位同学使用自己的 GitHub 账号、9 位完整学号、学号分支和个人目录。例如，11 专业 1 号学生的学号为 `240201101`：
@@ -24,7 +69,6 @@
 - 注册通过后，不得自行修改、删除或重命名 `.student.yml`。
 - 作业 PR 统一提交到教师仓库的 `main`；不要直接向教师仓库的 `main` 推送。
 
-这是课程提交规范；自动限制需要教师启用配套检查和分支保护后才生效。检查通过也不代表作业内容正确，仍需教师审核。
 
 > 下文的 `240201101`、`王明`、`wangming123` 都是示例。执行命令前，请替换为自己的信息。即使已在其他课程注册，本课程也需要在本仓库单独完成注册；可以继续使用同一个本人 GitHub 账号。
 
@@ -40,7 +84,7 @@
 
 ### 2. 安装 Git for Windows
 
-打开 [Git for Windows 官方下载页](https://git-scm.com/install/windows)，根据电脑类型选择安装程序：普通 Intel/AMD 64 位电脑选择 **x64 Setup**，Windows ARM 电脑选择 **ARM64 Setup**。
+打开 [Git for Windows 官方下载页](https://git-scm.com/install/windows)，根据电脑类型选择安装程序：普通 Intel/AMD 64 位电脑选择 **x64 Setup**，Windows ARM 电脑选择 **ARM64 Setup**。[Git for Windows 视频教程](https://www.bilibili.com/video/BV1LUKk6wEWr)
 
 安装时通常可保留默认设置，并注意：
 
@@ -127,7 +171,8 @@ git config --global user.email
 
 打开 [课程仓库](https://github.com/rosickey/eda-homework-2026)，点击 **Fork**，Owner 选择自己的个人账号，仓库名保留 `eda-homework-2026`，完成创建。
 
-例如用户名为 `wangming123`，自己的 Fork 就是 `wangming123/eda-homework-2026`。Fork 在 GitHub 上创建副本，后面的 Clone 则把副本下载到电脑。[GitHub Fork 操作说明](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)
+例如用户名为 `wangming123`，自己的 Fork 就是 `wangming123/eda-homework-2026`。Fork 在 GitHub 上创建副本，后面的 Clone 则把副本下载到电脑。[GitHub Fork 操作说明文字](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo)
+[GitHub Fork 操作说明视频](https://www.bilibili.com/video/BV1bd4y1J7Vt)
 
 ### 2. Clone 自己的 Fork
 
@@ -269,6 +314,7 @@ git status
 ```
 
 如有未处理的本地改动，先确认并妥善保存；不要直接覆盖文件。确认可以同步后执行：
+每次执行一条指令，确认无误后，再继续！
 
 ```bash
 git fetch upstream
@@ -276,7 +322,6 @@ git switch 240201101
 git merge --no-edit upstream/main
 ```
 
-已经在仓库内时，不需要再次执行 `cd eda-homework-2026`。如果发生合并冲突或其他错误，停止操作并保留提示，请教师协助；不要用强制推送或硬重置解决。
 
 ### 3. 创建作业目录，放入需要提交的文件
 
@@ -286,7 +331,7 @@ git merge --no-edit upstream/main
 mkdir -p students/240201101/HW01
 ```
 
-将要求的文件放入该目录。以下只是结构示例，文件名应按实际任务调整：
+执行上述命令后，再鼠标操作，将要求的文件放入上述目录。以下只是结构示例，文件名应按实际任务调整：
 
 | 示例路径 | 说明 |
 | --- | --- |
@@ -294,8 +339,8 @@ mkdir -p students/240201101/HW01
 | `students/240201101/HW01/top.v` | 如任务要求 Verilog 源代码，可放在此处 |
 | `students/240201101/HW01/top_tb.v` | 如任务要求 testbench，可放在此处 |
 | `students/240201101/HW01/report.pdf` | 仅在任务要求报告时提交 |
-| `students/240201101/HW02/` | 后续第二次作业目录，不是新分支 |
 
+后续作业将目录和提交信息中的 `HW01` 换成相应编号。
 不要把别人的文件或课程公共文件复制进本次提交中。提交前保存编辑器、仿真软件或工程中的最新修改，并按作业要求完成本地检查。
 
 ### 4. 检查并提交
@@ -323,7 +368,8 @@ git push origin 240201101
 
 ### 5. 创建作业 PR
 
-PR 方向仍为本人 Fork 的学号分支，到 `rosickey/eda-homework-2026` 的 `main`。
+在 GitHub 打开自己的 页面仓库，第4步如果正确，页面会出现**Compare & pull request**横幅。
+ 点击 **Compare & pull request**；没有提示时可通过 **Contribute → Open pull request** 或 **Pull requests → New pull request** 进入比较页面，必要时选择 **compare across forks**。
 
 标题格式为 `[学号] 作业编号 - 姓名`，例如：
 
@@ -356,8 +402,6 @@ git push origin 240201101
 ```
 
 原 PR 会自动更新；已启用的检查也会重新运行。若原 PR 已合并，先同步教师仓库，再按教师要求提交修订并创建新的 PR。
-
-需要提交报告或导出图纸的作业，修改源文件后记得重新生成对应输出文件。
 
 ## 六、常见问题
 
