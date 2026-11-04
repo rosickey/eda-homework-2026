@@ -1,11 +1,5 @@
 module led(clk,out);
-		input  clk;
-		output reg out;
-		always@( clk)
-	begin
-	out <= clk; 
-end
+	input clk;
+	output out;
+	assign out=clk;
 endmodule
-			
-//assign out= clk;		
-
