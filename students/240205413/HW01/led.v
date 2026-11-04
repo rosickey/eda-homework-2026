@@ -1,10 +1,6 @@
-module led(q, out);
-    input wire q;
-    output reg out;
-
-    always @(*)
-    begin
-        out = q;
-    end
-
+module led(clk,out);                                    
+	input clk;
+	output out;
+	
+	assign out=clk;
 endmodule
