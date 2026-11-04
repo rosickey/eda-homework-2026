@@ -10,12 +10,13 @@ begin
         count <= 0;
     else if(!inhibit)
     begin
-        if(count==9)
+        if(count == 9)
             count <= 0;
         else
             count <= count + 1;
     end
 end
-assign q = 10'b0000000001 << count;
-assign carry_out = !(count<9);
+
+assign q = 10'b0000_0000_01 << count;
+assign carry_out = !(count < 9);
 endmodule
