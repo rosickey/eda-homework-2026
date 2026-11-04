@@ -1,15 +1,17 @@
+module cd4017(clk,carry_out,q);
+    input clk;
+    output carry_out;
+    output [7:0] q;
+    reg [3:0] count = 4'd0;
 
-module cd4017 (
-    input        clk,
-    input        rst,
-    input        en,
-    output reg [7:0] q
-);
-always @(posedge clk or posedge rst) begin
-    if (rst) begin
-        q <= 8'b00000001;
-    end else if (en) begin
-        q <= {q[6:0], q[7]};
+    always @(posedge clk)
+    begin
+        if(count == 7)
+            count <= 0;
+        else
+            count <= count + 1;
     end
-end
+
+    assign carry_out = (count == 7);
+    assign q = 8'b0000_0001 << count;
 endmodule
