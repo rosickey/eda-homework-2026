@@ -1,6 +1,6 @@
-module cd4017(clk,reset,inhibit,carry_out,q);
+module cd4017(clk,reset,inhibit,cout,q);
 	input clk,reset,inhibit;
-	output carry_out;
+	output cout;
 	output [9:0] q;
 	reg [3:0] count;
 
@@ -17,5 +17,5 @@ module cd4017(clk,reset,inhibit,carry_out,q);
 		end
 	end
 	assign q=10'b0000_0000_01<<count;
-	assign carry_out=!(count<9);
+	assign cout=!(count<9);
 endmodule
