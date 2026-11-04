@@ -1,10 +1,10 @@
-module led(A, Q);
-    input wire A;
-    output reg Q;
+module led(I, O);
+    input wire I;
+    output reg O;
 
     always @(*)
     begin
-        Q <= A;
+        O <= I;
     end
 
 endmodule

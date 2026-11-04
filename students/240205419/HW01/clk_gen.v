@@ -1,4 +1,7 @@
 module clk_gen (clk);
     output reg clk = 0;
-    always #5 clk = ~clk;
+    initial
+        begin
+            forever #10 clk = ~clk;
+        end
 endmodule

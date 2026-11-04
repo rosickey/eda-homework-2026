@@ -1,26 +1,22 @@
 module cd4017 (clk, ce, clr, cout, q);
     input clk, ce ,clr;
-    reg [3:0] count = 0;
     output reg cout = 0;
     output [7:0] q;
-    always @(posedge clk or negedge clr)
+    reg [3:0] count = 0;
+always@(posedge clk or posedge clr)
+begin
+    if(clr)
     begin
-        
-        if(!clr)
-            begin
-                count <= 0;
-                cout <= 0;
-            end
-        else if(count == 7 && !ce)
-            begin
-                count <= 0;
-                cout <= 1;
-            end
-        else if(!ce)
-            begin
-                cout <= 0;
-                count <= count + 1;
-            end
+        cout<=0;
     end
-    assign q = 8'b00000001 << count;
+    else if(!ce)
+    begin
+        if(count==7)
+        count<=0;
+        else
+        count<=count+1;
+    end
+end
+assign carry_out = (count == 7);
+assign q = 8'b0000_0001 << count;
 endmodule
