@@ -43,7 +43,6 @@ students/240205123/.student.yml
 | 240205437 | 李寒峰 | 2402054 |
 | 240205442 | 毛振杰 | 2402054 |
 | 240205445 | 陈博睿 | 2402054 |
-| 248205501 | 韩晨 | 2482055 |
 
 ## [第一次作业HW01](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW01)
 
