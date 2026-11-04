@@ -8,7 +8,7 @@ module cd4017(clk,reset,inhibit,carry_out,q);
 	if(reset)
 		count <= 0;
 	else if(!inhibit)
-	begin
+	begin 
 		if(count==9)
 		count <= 0;
 		else
