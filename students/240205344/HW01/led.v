@@ -1,10 +1,6 @@
-module led(clk,q);
-	input clk;
-	output q;
-	reg cout;
+module led(clk, out);
+	input  clk;
+	output out;
 
-	always@(posedge clk or negedge clk)
-		cout<=clk;
-	
-	assign q=cout;
+	assign out = clk;
 endmodule

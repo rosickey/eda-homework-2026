@@ -1,29 +1,31 @@
-module test_led;
-	wire clk;
-	wire [0:7] out;
-	wire[0:7] led_clk;
-	reg reset,inhibit;
-	wire co;
-	wire [0:7] q;
+module top_tb;
+	wire       clk_wire;
+	wire [7:0] q_wire;
+	wire [7:0] out_wire;
 
-	clk_gen u_clk(clk);
-	cd4017 u_4017(clk,reset,inhibit,co,q);
+	reg reset;
+	reg inhibit;
 
-	led u_led0(led_clk[0],out[0]);
-	led u_led1(led_clk[1],out[1]);
-	led u_led2(led_clk[2],out[2]);
-	led u_led3(led_clk[3],out[3]);
-	led u_led4(led_clk[4],out[4]);
-	led u_led5(led_clk[5],out[5]);
-	led u_led6(led_clk[6],out[6]);
-	led u_led7(led_clk[7],out[7]);
+	clk_gen u_clk_gen(clk_wire);
+	cd4017 u_cd4017(clk_wire, reset, inhibit, , q_wire);
 
-	assign led_clk=q[0:7];
-	initial begin
-		$dumpfile("xs");
-		$dumpvars();
-		reset=1;inhibit=0;
-		#20 reset=0;
-		#200 $finish();
+	led u_led0(q_wire[0], out_wire[0]);
+	led u_led1(q_wire[1], out_wire[1]);
+	led u_led2(q_wire[2], out_wire[2]);
+	led u_led3(q_wire[3], out_wire[3]);
+	led u_led4(q_wire[4], out_wire[4]);
+	led u_led5(q_wire[5], out_wire[5]);
+	led u_led6(q_wire[6], out_wire[6]);
+	led u_led7(q_wire[7], out_wire[7]);
+
+	initial
+	begin
+		$dumpfile("wave.vcd");
+		$dumpvars(0, top_tb);
+
+		reset   = 1'b1;
+		inhibit = 1'b0;
+		#20 reset = 1'b0;
+		#200 $finish;
 	end
 endmodule
