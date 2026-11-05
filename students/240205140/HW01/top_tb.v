@@ -1,44 +1,36 @@
-`timescale 1ns / 1ps
+module top_tb;
+	wire       clk_wire;
+	wire       carry_out_wire;
+	wire [9:0] q_wire;
 
-module test_led;
-    wire clk;
-    wire [9:0] q;
-    wire [7:0] out;
-    
-    // 【新增】定义一个复位信号，用于初始化
-    reg rst;
+	wire led_out_0, led_out_1, led_out_2, led_out_3;
+	wire led_out_4, led_out_5, led_out_6, led_out_7;
 
-    clk_gen u_clk_gen(
-        .clk(clk)
-    );
+	reg  reset_reg;
 
-    cd4017 u_cd4017(
-        .clk(clk),
-        .reset(rst),     // 【修改】把复位信号接上
-        .inhibit(1'b0),  // 允许计数
-        .carry_out(),
-        .q(q)
-    );
+	initial
+	begin
+		reset_reg = 1'b1;
+		#25 reset_reg = 1'b0;
+	end
 
-    // 8个LED模块例化保持不变
-    led u_led0(.clk(q[0]), .out(out[0]));
-    led u_led1(.clk(q[1]), .out(out[1]));
-    led u_led2(.clk(q[2]), .out(out[2]));
-    led u_led3(.clk(q[3]), .out(out[3]));
-    led u_led4(.clk(q[4]), .out(out[4]));
-    led u_led5(.clk(q[5]), .out(out[5]));
-    led u_led6(.clk(q[6]), .out(out[6]));
-    led u_led7(.clk(q[7]), .out(out[7]));
+	clk_gen u_clk_gen(clk_wire);
 
-    initial begin
-        $dumpfile("done.vcd");
-        $dumpvars(0, test_led);
-        
-        // 【新增】上电初始阶段，给复位信号高电平
-        rst = 1'b1;
-        #50;             // 保持 50ns 的复位时间
-        rst = 1'b0;      // 释放复位，让计数器开始工作
+	cd4017 u_cd4017(clk_wire, reset_reg, 1'b0, carry_out_wire, q_wire);
 
-        #400 $finish;    // 运行一段时间后结束
-    end
+	led u_led_0(q_wire[0], led_out_0);
+	led u_led_1(q_wire[1], led_out_1);
+	led u_led_2(q_wire[2], led_out_2);
+	led u_led_3(q_wire[3], led_out_3);
+	led u_led_4(q_wire[4], led_out_4);
+	led u_led_5(q_wire[5], led_out_5);
+	led u_led_6(q_wire[6], led_out_6);
+	led u_led_7(q_wire[7], led_out_7);
+
+	initial
+	begin
+		$dumpfile("wave.vcd");
+		$dumpvars();
+		#300 $finish;
+	end
 endmodule
