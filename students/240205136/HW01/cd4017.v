@@ -15,6 +15,6 @@ module cd4017(clk,reset,inhibit,carry_out,q);
 				count <= count + 1;
 			end	
 	end
-	assign carry_out = (count == 9);
+	assign carry_out = (count == 9);//
 	assign q = 10'b00_0000_0001 << count;
 endmodule

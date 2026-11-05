@@ -9,7 +9,7 @@ module test_led;
     led u_led3(led_clk[3],out[3]);
     led u_led4(led_clk[4],out[4]);
     led u_led5(led_clk[5],out[5]);
-    led u_led6(led_clk[6],out[6]);
+    led u_led6(led_clk[6],out[6]);//
     led u_led7(led_clk[7],out[7]);
     always@(posedge clk)
     begin
