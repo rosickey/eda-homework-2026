@@ -1,62 +1,36 @@
-// tb.v  顶层测试文件
-module tb;
+module top_tb;
+	wire       clk_wire;
+	wire       carry_out_wire;
+	wire [9:0] q_wire;
 
-// 连线定义
-wire        clk;
-reg         reset;
-reg         inhibit;
-wire        carry_out;
-wire [9:0]  q;
+	wire led_out_0, led_out_1, led_out_2, led_out_3;
+	wire led_out_4, led_out_5, led_out_6, led_out_7;
 
-// 8个LED输出
-wire L0, L1, L2, L3, L4, L5, L6, L7;
+	reg  reset_reg;
 
-// 例化时钟发生器
-clk_gen u_clk_gen(
-    .clk(clk)
-);
+	initial
+	begin
+		reset_reg = 1'b1;
+		#25 reset_reg = 1'b0;
+	end
 
-// 例化CD4017
-cd4017 u_cd4017(
-    .clk(clk),
-    .reset(reset),
-    .inhibit(inhibit),
-    .carry_out(carry_out),
-    .q(q)
-);
+	clk_gen u_clk_gen(clk_wire);
 
-// 例化8个LED模块
-LED u_led0 (.clk(q[0]), .L(L0));
-LED u_led1 (.clk(q[1]), .L(L1));
-LED u_led2 (.clk(q[2]), .L(L2));
-LED u_led3 (.clk(q[3]), .L(L3));
-LED u_led4 (.clk(q[4]), .L(L4));
-LED u_led5 (.clk(q[5]), .L(L5));
-LED u_led6 (.clk(q[6]), .L(L6));
-LED u_led7 (.clk(q[7]), .L(L7));
+	cd4017 u_cd4017(clk_wire, reset_reg, 1'b0, carry_out_wire, q_wire);
 
-// 波形导出
-initial begin
-    $dumpfile("wave.vcd");
-    $dumpvars(0, tb);
-end
+	led u_led_0(q_wire[0], led_out_0);
+	led u_led_1(q_wire[1], led_out_1);
+	led u_led_2(q_wire[2], led_out_2);
+	led u_led_3(q_wire[3], led_out_3);
+	led u_led_4(q_wire[4], led_out_4);
+	led u_led_5(q_wire[5], led_out_5);
+	led u_led_6(q_wire[6], led_out_6);
+	led u_led_7(q_wire[7], led_out_7);
 
-// 激励信号
-initial begin
-    reset   = 1'b1;
-    inhibit = 1'b1;
-    #20;
-    reset   = 1'b0;
-    inhibit = 1'b0; // 使能计数，开始流水
-    
-    #400; // 仿真持续时间，足够看几轮流水
-    $finish;
-end
-
-// 打印监控
-initial begin
-    $monitor("Time = %0t | clk=%b | q=%10b | L0=%b L1=%b L2=%b L3=%b L4=%b L5=%b L6=%b L7=%b",
-              $time, clk, q, L0, L1, L2, L3, L4, L5, L6, L7);
-end
-
+	initial
+	begin
+		$dumpfile("wave.vcd");
+		$dumpvars();
+		#300 $finish;
+	end
 endmodule
