@@ -12,17 +12,9 @@ module top_tb;
         #25 reset = 1'b0;
     end
 
-    clk_gen u_clk_gen (
-        .clk(clk)
-    );
+    clk_gen u_clk_gen(clk);
 
-    cd4017 u_cd4017 (
-        .clk(clk),
-        .reset(reset),
-        .inhibit(1'b0),
-        .carry_out(carry_out),
-        .q(q)
-    );
+    cd4017 u_cd4017(clk, reset, 1'b0, carry_out, q);
 
     led u_led0 (q[0], led_out[0]);
     led u_led1 (q[1], led_out[1]);
