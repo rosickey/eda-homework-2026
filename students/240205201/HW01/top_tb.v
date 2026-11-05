@@ -24,12 +24,12 @@ end
 
 initial
 begin
-    led_clk <= 8'b0000_0001;
-    reset=1;
-    inhibit=0;
-    #10 reset=0;
-    $dumpfile("done");
-    $dumpvars();
-    #200 $finish();
+   	 led_clk <= 8'b0000_0001;
+    	reset=1;
+   	 inhibit=0;
+   	 #10 reset=0;
+   	 $dumpfile("done");
+   	 $dumpvars();
+   	 #200 $finish();
 end
 endmodule
