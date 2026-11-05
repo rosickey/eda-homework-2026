@@ -18,8 +18,8 @@ module test_led;
     initial
     begin
         led_clk <= 8'b0000_0001;//
-        dumpfile("done");
-        dumpvars();
+        $dumpfile("done");
+        $dumpvars();
         #200 $finish();
     end
 endmodule
