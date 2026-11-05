@@ -1,5 +1,0 @@
-module demo5;
-	rega,b,c;
-	initialf		
-	begin
-		$display(
