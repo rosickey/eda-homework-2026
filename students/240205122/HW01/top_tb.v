@@ -16,7 +16,7 @@ module test_led;
     led_direct u_led7 (led_input[7], led_output[7]);
 
     always @(posedge clk)
-    led_input <= {led_input[6:0], led_input[7]};
+    led_input <= {led_input[6:0], led_input[7]};  
 
     initial begin
 	led_input = 8'b00000001;
@@ -26,5 +26,5 @@ module test_led;
         #200;
         $finish;
     end
-
+ 
 endmodule
