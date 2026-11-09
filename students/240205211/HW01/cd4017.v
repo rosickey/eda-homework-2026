@@ -4,7 +4,7 @@ module cd4017(clk,reset,inhibit,carry_out,q);
 	output [9:0] q;
 	reg [3:0] cout;
 	always@(posedge clk or posedge reset)
-	begin
+begin
 		if(reset)
 				cout<=0;
 		else if(!inhibit)
