@@ -1,9 +1,7 @@
-module led(clk,out);
-    input wire clk;
-    output reg out;
-    
-    always@(*)
-    begin
-        out<=clk;
-    end
+module led(in,out);
+	input in;
+	output out;
+
+	assign out = in;
+
 endmodule
