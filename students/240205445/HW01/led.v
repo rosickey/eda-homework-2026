@@ -1,9 +1,10 @@
-module led(led_clk,out);
-input led_clk;
-output out;
-reg out;
-always@(*)
-begin
-    out<=led_clk;
-end
+module led(inp, outp);
+    input wire inp;
+    output reg outp;
+
+    always @(*)
+    begin
+        outp <= inp;
+    end
+
 endmodule
