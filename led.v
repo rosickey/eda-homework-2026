@@ -1,10 +1,6 @@
-`timescale 1ns / 1ps
+odule led(clk,out);
+		input clk;
+		output out;
 
-module led(
-    input  sig,
-    output light
-);
-
-assign light = sig;
-
+		assign out =clk;
 endmodule

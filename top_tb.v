@@ -1,52 +1,41 @@
-`timescale 1ns / 1ps
-
+`timescale 1s / 1ns
 module top_tb;
+    wire clk_1s;
+    reg [6:0] cnt = 7'd0;  
+    reg red_en, green_en, yellow_en;
+    wire red, green, yellow;
 
-wire clk;
-wire q0,q1,q2,q3,q4,q5,q6,q7,q8,q9;
-wire l0,l1,l2,l3,l4,l5,l6,l7;
+    clk_gen_1s u_clk (clk_1s);
 
-reg MR;
-reg INH;
-
-clk_gen u_clk(
-    .clk(clk)
-);
-
-cd4017 u_4017(
-    .CP0(clk),
-    .MR(MR),
-    .INH(INH),
-    .Q0(q0),
-    .Q1(q1),
-    .Q2(q2),
-    .Q3(q3),
-    .Q4(q4),
-    .Q5(q5),
-    .Q6(q6),
-    .Q7(q7),
-    .Q8(q8),
-    .Q9(q9)
-);
-
-led u_led0 (.sig(q0), .light(l0));
-led u_led1 (.sig(q1), .light(l1));
-led u_led2 (.sig(q2), .light(l2));
-led u_led3 (.sig(q3), .light(l3));
-led u_led4 (.sig(q4), .light(l4));
-led u_led5 (.sig(q5), .light(l5));
-led u_led6 (.sig(q6), .light(l6));
-led u_led7 (.sig(q7), .light(l7));
-
-initial begin
-    $dumpfile("wave.vcd");
-    $dumpvars;
-    MR  = 1'b1;
-    INH = 1'b0;
-    #20;
-    MR = 1'b0;
-    #300;
-    $finish;
-end
-
+    always @(posedge clk_1s) begin
+        if(cnt == 7'd69)   
+            cnt <= 7'd0;
+        else
+            cnt <= cnt + 7'd1;
+    end
+always @(*) begin
+        red_en    = 1'b0;
+        green_en  = 1'b0;
+        yellow_en = 1'b0;
+        if(cnt <= 7'd29) begin         
+            red_en = 1'b1;
+        end
+        else if(cnt <= 7'd59) begin   
+            green_en = 1'b1;
+        end
+        else begin                      
+            yellow_en = 1'b1;
+        end
+    end
+ led u_led_red (red_en, red);
+    led u_led_green (green_en, green);
+        led u_led_yellow (yellow_en ? clk_1s : 1'b0, yellow);
+    initial begin
+        $dumpfile("wave.vcd");
+        $dumpvars(0, top_tb);
+        $monitor("time=%0t, cnt=%0d | red=%b, green=%b,
+ yellow=%b",$time,cnt,red,green,yellow);
+        #210;
+        $finish;
+    end
 endmodule
