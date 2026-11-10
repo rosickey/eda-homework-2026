@@ -1,3 +1,4 @@
+`timescale 1s/1ms
 module clk_gen_1s(clk);
 output clk;
 reg clk;
