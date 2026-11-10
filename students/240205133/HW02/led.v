@@ -5,7 +5,7 @@ module led(clk,out);
 	always@(clk)
 	begin
 		 out<=clk;
-	end
+	end//
 endmodule
 
 
