@@ -37,6 +37,6 @@ initial begin
     cnt = 0;
     $dumpfile("traffic.vcd");
     $dumpvars(0, top_td);
-    #80 $finish;
+    #120 $finish;
 end
 endmodule
