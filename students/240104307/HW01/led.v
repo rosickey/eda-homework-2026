@@ -1,6 +1,7 @@
-module led_cathode(input square_in, output reg led);
-always @(*) 
-begin
-    led = square_in;
-end
+module led(clk,led);
+	input clk;
+	output led;
+	assign led=clk;
 endmodule
+		
+	

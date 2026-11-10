@@ -1,15 +1,21 @@
-module cd4017(
-    input clk,
-    input rst,
-    input inh,
-    output reg [9:0] q
-);
-always @(posedge clk or posedge rst) begin
-    if(rst) begin
-        q <= 10'b0000000001;
-    end
-    else if(!inh) begin
-        q <= {q[8:0], q[9]};
-    end
-end
+module cd4017(clk,reset,inhibit,carry_out,q);
+	input clk,reset,inhibit;
+	output carry_out;
+	output[9:0] q;
+	reg[3:0] count;
+
+	always@(posedge clk or posedge reset)
+	begin
+		if(reset)
+			count<=4'b0;
+		else if(!inhibit)
+		begin
+			if(count==9)
+				count<=0;
+			else
+				count<=count+1;
+		end
+	end
+	assign q=10'b0000_0000_01<<count;
+	assign carry_out=!(count<9);
 endmodule
