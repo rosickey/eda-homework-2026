@@ -1,38 +1,62 @@
-`timescale 1ms/1ms
+`timescale 1s/1ms
 
 module top_tb;
-	wire clk;
-	wire red,green,yellow;
-	wire q_r,q_g,q_y;
-	reg reset;
-	reg [6:0] count;
+	wire clk,q_g,q_y,q_r;
+	wire yellow;
+	reg green,red;
+	reg [1:0] counta;
+	reg [4:0] num;
 
 	clk_gen_1s u_clk(clk);
-	led u_red(red,q_r);
 	led u_green(green,q_g);
 	led u_yellow(yellow,q_y);
+	led u_red(red,q_r);
 
-	always@(negedge clk or posedge reset)
+	assign yellow = (counta==2) && clk;
+
+	always@(posedge clk)
 	begin
-		if(reset)
-			count <= 7'd0;
-		else if(count==7'd69)
-			count <= 7'd0;
+		if(num>1)
+			num <= num - 1;
 		else
-			count <= count + 1;
+		begin
+			case(counta)
+				1: begin 
+					green <= 0;
+					red <= 0;
+					counta <= 2;
+					num <= 10;
+				end
+				2: begin 
+					green <= 0;
+					red <= 1;
+					counta <= 3;
+					num <= 30;
+				end
+				3: begin 
+					green <= 1;
+					red <= 0;
+					counta <= 1;
+					num <= 30;
+				end
+				default: begin
+					green <= 1;
+					red <= 0;
+					counta <= 1;
+					num <= 30;
+				end
+			endcase
+		end
 	end
-
-	assign green = count < 7'd30;
-	assign yellow = (count >= 7'd30) && (count < 7'd40) && !clk;
-	assign red = (count >= 7'd40);
 
 	initial
 	begin
 		$dumpfile("done");
 		$dumpvars();
-		count = 7'd0;
-		reset = 1;
-		#1 reset = 0;
-		#140000 $finish;
+		green = 1;
+		red = 0;
+		counta = 1;
+		num = 30;
+		#140 $finish;
 	end
 endmodule
