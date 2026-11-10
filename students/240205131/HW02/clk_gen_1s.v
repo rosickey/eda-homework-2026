@@ -4,7 +4,7 @@ output clk;
 reg clk;
 initial
 begin
-	clk = 0;
+	clk = 1;
 	forever #0.5 clk = ~clk;
 end
 endmodule

@@ -1,5 +1,5 @@
-module led(clk, led);
+module led(clk, out);
 	input  clk;
-	output led;
-assign led = clk;
+	output out;
+assign out = clk;
 endmodule
