@@ -1,6 +1,6 @@
 `timescale 1ms / 1us
 module top_tb;
-    reg clk;
+    wire clk;
     reg [1:0] state;
     reg [6:0] cnt;
     reg ctrl_red, ctrl_green;
@@ -20,14 +20,15 @@ module top_tb;
             end
             2'd1: begin
                 ctrl_red <= 1'b0; ctrl_green <= 1'b1;
-                if (cnt == 7'd29) begin state <= 2'd2; cnt <= 7'd0; end
+                if (cnt == 7'd29) begin state <= 2'd2; cnt <= 7'd0; ctrl_green <= 1'b0; end
                 else cnt <= cnt + 1'b1;
             end
             2'd2: begin
                 ctrl_red <= 1'b0; ctrl_green <= 1'b0;
-                if (cnt == 7'd9) begin state <= 2'd0; cnt <= 7'd0; end
+                if (cnt == 7'd9) begin state <= 2'd0; cnt <= 7'd0; ctrl_red <= 1'b1; end
                 else cnt <= cnt + 1'b1;
             end
+            default: begin state <= 2'd0; cnt <= 7'd0; ctrl_red <= 1'b0; ctrl_green <= 1'b0; end
         endcase
     end
 
@@ -36,8 +37,7 @@ module top_tb;
     initial begin
         $dumpfile("top_tb.vcd");
         $dumpvars(0, top_tb);
-        state = 2'd0;
-        cnt = 7'd0;
+        state = 2'd0; cnt = 7'd0; ctrl_red = 1'b0; ctrl_green = 1'b0;
         #140000 $finish;
     end
 endmodule
