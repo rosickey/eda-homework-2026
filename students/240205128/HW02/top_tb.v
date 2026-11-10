@@ -23,8 +23,8 @@ module top_tb;
     initial begin
         mode      = 2'd0;
         count     = 6'd0;
-        red_en    = 1'b1;
-        green_en  = 1'b0;
+        red_en    = 1'b0;
+        green_en  = 1'b1;
         yellow_en = 1'b0;
     end
 
@@ -32,18 +32,18 @@ module top_tb;
         case (mode)
             2'd0: begin
                 if (count == 6'd29) begin
-                    red_en   <= 1'b0;
-                    green_en <= 1'b1;
-                    mode     <= 2'd1;
-                    count    <= 6'd0;
+                    green_en  <= 1'b0;
+                    yellow_en <= 1'b1;
+                    mode      <= 2'd1;
+                    count     <= 6'd0;
                 end else begin
                     count <= count + 1'b1;
                 end
             end
             2'd1: begin
-                if (count == 6'd29) begin
-                    green_en  <= 1'b0;
-                    yellow_en <= 1'b1;
+                if (count == 6'd9) begin
+                    yellow_en <= 1'b0;
+                    red_en    <= 1'b1;
                     mode      <= 2'd2;
                     count     <= 6'd0;
                 end else begin
@@ -51,9 +51,9 @@ module top_tb;
                 end
             end
             2'd2: begin
-                if (count == 6'd9) begin
-                    yellow_en <= 1'b0;
-                    red_en    <= 1'b1;
+                if (count == 6'd29) begin
+                    red_en    <= 1'b0;
+                    green_en  <= 1'b1;
                     mode      <= 2'd0;
                     count     <= 6'd0;
                 end else begin
@@ -63,8 +63,8 @@ module top_tb;
             default: begin
                 mode      <= 2'd0;
                 count     <= 6'd0;
-                red_en    <= 1'b1;
-                green_en  <= 1'b0;
+                red_en    <= 1'b0;
+                green_en  <= 1'b1;
                 yellow_en <= 1'b0;
             end
         endcase
