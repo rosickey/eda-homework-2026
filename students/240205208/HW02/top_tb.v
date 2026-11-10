@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 module top_tb;
 wire clk_1s;
 wire led_red, led_green, led_yellow;
