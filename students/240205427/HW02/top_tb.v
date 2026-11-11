@@ -11,7 +11,7 @@ module top_tb;
     wire        green_led;
     wire        yellow_led;
 
-    clk_gen_1s u_clk_gen_1s (.clk(clk_1s));
+    clk_gen_1s u_clk_gen_1s(clk_1s);
 
     led u_red    (red_en,    red_led);
     led u_green  (green_en,  green_led);
