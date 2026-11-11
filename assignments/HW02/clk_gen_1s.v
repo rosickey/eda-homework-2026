@@ -1,10 +1,10 @@
-`timescale 1ns/1ns
+`timescale 1ms/1ms
 module clk_gen_1s(clk);
 		output clk;
 		reg clk;
 		initial
 		begin
 			clk=0;
-			forever #500000000 clk=~clk;
+			forever #500 clk=~clk;
 		end
 endmodule

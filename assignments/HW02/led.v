@@ -1,4 +1,4 @@
-`timescale 1ns/1ns
+`timescale 1ms/1ms
 module led(clk,out);
 	input  clk;
 	output out;

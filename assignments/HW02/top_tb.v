@@ -1,4 +1,4 @@
-`timescale 1ns / 1ns
+`timescale 1ms / 1ms
 module top_tb;
 		wire clk_1s;
 		wire red, yellow, green;
@@ -21,7 +21,7 @@ module top_tb;
 		cnt = 7'd0;    
 		state = S_RED;    
 		$monitor("time=%0t, red=%b, yellow=%b, green=%b, state=%0d",$time,red,yellow,green,state);    
-		#800000000000 $finish;
+		#800000 $finish;
 	end
 		always @(posedge clk_1s) begin    
 			case(state)       
