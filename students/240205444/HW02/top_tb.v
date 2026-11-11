@@ -6,7 +6,7 @@ module top_tb;
     reg [6:0] sec;
     wire red_drv, yellow_drv, green_drv;
 
-    clk_gen_1s u_clk(clk);
+    clk_gen_1s u_clk_(clk);
     led u_led_red    (red_drv,    red);
     led u_led_yellow (yellow_drv, yellow);
     led u_led_green  (green_drv,  green);
