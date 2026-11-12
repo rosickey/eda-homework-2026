@@ -1,48 +1,63 @@
+`timescale 1ms/1ms
 module top_tb;
+wire clk;
+wire red_out,yellow_out,green_out;
+reg red,yellow,green;
+reg [1:0] state;
+reg [5:0] sec_cnt;
 
-wire clk_1s;
-wire yellow_out;  //黄灯接led模块（闪烁）
-reg red_out;      //红灯常亮信号
-reg green_out;    //绿灯常亮信号
+clk_gen_1s u_clk(clk);
+led u_red(red,red_out);
+led u_yel(yellow,yellow_out);
+led u_grn(green,green_out);
 
-//例化1s时钟
-clk_gen_1s u_clk(
-    .clk(clk_1s)
-);
-
-// 黄灯例化，只用原版led（只有clk、out）
-led u_yellow(
-    .clk(clk_1s),
-    .out(yellow_out)
-);
-
-reg [7:0] cnt;
-
-//秒计数器，每1s加1
-always @(posedge clk_1s) begin
-    cnt <= cnt + 1'b1;
-    if(cnt >= 70) cnt <= 0;
-end
-
-//时序控制：红30s亮 → 黄灯闪10s → 绿灯30s亮，循环
-always @(*) begin
-    red_out = 1'b0;
-    green_out = 1'b0;
-    if(cnt < 30) begin
-        red_out = 1'b1;
-    end
-    else if(cnt >= 40 && cnt <70) begin
-        green_out = 1'b1;
-    end
-    //30~39s：黄灯由led模块自动闪烁，这里不用管
-end
-
-//波形导出
 initial begin
-    cnt = 0;
-    $dumpfile("wave.vcd");
-    $dumpvars(0,top_tb);
-    #100000000000;
+    state = 2'b00;   
+    sec_cnt = 6'd30; 
+end
+
+always @(posedge clk) begin
+    if(sec_cnt > 6'd1) begin
+        sec_cnt <= sec_cnt - 6'd1;
+    end
+    else begin
+        case(state)
+            2'b00: begin  
+                state <= 2'b01;
+                sec_cnt <= 6'd10;
+            end
+            2'b01: begin  
+                state <= 2'b10;
+                sec_cnt <= 6'd30;
+            end
+            2'b10: begin  
+                state <= 2'b00;
+                sec_cnt <= 6'd30;
+            end
+            default: begin
+                state <= 2'b00;
+                sec_cnt <= 6'd30;
+            end
+        endcase
+    end
+end
+
+always @(*) begin
+    red=1'b0;
+    yellow=1'b0;
+    green=1'b0;
+    case(state)
+        2'b00: green=1'b1;     
+        2'b01: yellow=clk;     
+        2'b10: red=1'b1;        
+        default: ;
+    endcase
+end
+
+initial begin
+    $dumpfile("done");
+    $dumpvars(0,red,green,yellow);
+    #210000;
     $finish;
 end
 
