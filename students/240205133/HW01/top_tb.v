@@ -1,6 +1,7 @@
 module top_tb;
-	wire       clk;
-	wire       carry_out;
+	
+	wire   carry_out;
+	wire  clk;
 	wire [9:0] q;
 	wire led0, led1, led2, led3, led4, led5, led6, led7;
 	reg  reset;
