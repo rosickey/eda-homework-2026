@@ -6,7 +6,7 @@ module led(clk,out);
 	begin
 		 out<=clk;
 	end
-endmodule
-//
+endmodule//
+
 
 
