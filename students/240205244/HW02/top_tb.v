@@ -1,5 +1,5 @@
 `timescale 1s / 1ms
-module top_td;
+module top_tb;
 wire clk;
 reg green_ctrl, yellow_ctrl, red_ctrl;
 wire q_g, q_y, q_r;
