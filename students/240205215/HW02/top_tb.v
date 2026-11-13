@@ -21,7 +21,7 @@ module top_tb;
 		cnt = 0;
 	end
 
-	always @(posedge clk)
+	always @(negedge clk)
 	begin
 		if (cnt == 69)
 			cnt = 0;
