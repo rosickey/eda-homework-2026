@@ -1,80 +1,35 @@
-`timescale 1ns/1ps
 module top_tb;
 
-    wire       clk_1s;
-    reg  [1:0] mode;
-    reg  [5:0] count;
-    reg        red_en;
-    reg        green_en;
-    reg        yellow_en;
-    wire       yellow_clk;
-    wire       red_led;
-    wire       green_led;
-    wire       yellow_led;
+    wire clk;
+    wire [9:0] q;
+    wire [7:0] led_out;
+    reg rst_pulse;
+    wire reset;
 
-    clk_gen_1s u_clk_gen_1s (clk_1s);
+    assign reset=rst_pulse | q[8];
 
-    led u_red    (red_en,     red_led);
-    led u_green  (green_en,   green_led);
-    led u_yellow (yellow_clk, yellow_led);
+    clk_gen u_clk (clk);
+    
+   CD4017 u_4017(clk,reset,1'b0, ,q);
 
-    assign yellow_clk = yellow_en & clk_1s;
 
-    initial begin
-        mode      = 2'd0;
-        count     = 6'd0;
-        red_en    = 1'b0;
-        green_en  = 1'b1;
-        yellow_en = 1'b0;
-    end
-
-    always @(posedge clk_1s) begin
-        case (mode)
-            2'd0: begin
-                if (count == 6'd29) begin
-                    green_en  <= 1'b0;
-                    yellow_en <= 1'b1;
-                    mode      <= 2'd1;
-                    count     <= 6'd0;
-                end else begin
-                    count <= count + 1'b1;
-                end
-            end
-            2'd1: begin
-                if (count == 6'd9) begin
-                    yellow_en <= 1'b0;
-                    red_en    <= 1'b1;
-                    mode      <= 2'd2;
-                    count     <= 6'd0;
-                end else begin
-                    count <= count + 1'b1;
-                end
-            end
-            2'd2: begin
-                if (count == 6'd29) begin
-                    red_en    <= 1'b0;
-                    green_en  <= 1'b1;
-                    mode      <= 2'd0;
-                    count     <= 6'd0;
-                end else begin
-                    count <= count + 1'b1;
-                end
-            end
-            default: begin
-                mode      <= 2'd0;
-                count     <= 6'd0;
-                red_en    <= 1'b0;
-                green_en  <= 1'b1;
-                yellow_en <= 1'b0;
-            end
-        endcase
-    end
+    led u_led0 ((q[0]),  led_out[0]);
+    led u_led1 ((q[1]),   led_out[1]);
+    led u_led2 ((q[2]),   led_out[2]);
+    led u_led3 ((q[3]),  led_ out[3]);
+    led u_led4 ((q[4]),   led_out[4]);
+    led u_led5 ((q[5]),   led_out[5]);
+    led u_led6 ((q[6]),   led_out[6]);
+    led u_led7 ((q[7]),   led_out[7]);
 
     initial begin
-        $dumpfile("traffic_light.vcd");
-        $dumpvars(0, top_tb);
-        #150_000_000_000;
-        $finish;
+        $dumpfile("top_tb.vcd");
+        $dumpvars(0,top_tb);
     end
+initial begin
+rst_pulse=1'b1;
+#35 rst_pulse=1'b0;
+#175 $finish;
+end
 
 endmodule
