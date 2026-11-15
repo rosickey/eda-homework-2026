@@ -1,90 +1,106 @@
-module top_tb;
- wire clk_1s;
- reg red_en;
- reg green_en;
- reg yellow_en;
- wire red_led;
- wire green_led;
- wire yellow_led;
- clk_gen_1s u_clk_gen_1s(
-     .clk_1s(clk_1s)
- );
- led u_led_red(
-     .en(red_en),
-     .clk_1s(clk_1s),
-     .led_out(red_led)
- );
- led u_led_green(
-     .en(green_en),
-     .clk_1s(clk_1s),
-     .led_out(green_led)
- );
- led u_led_yellow(
-     .en(yellow_en),
-     .clk_1s(clk_1s),
-     .led_out(yellow_led)
- );
- reg [5:0] cnt;
+module top_tb(clk_1s,en,hold,red,yellow,green);
+ input clk_1s;
+ output reg en,hold;
+ output red,yellow,green;
+ reg red_blink;
+ reg yellow_blink;
+ reg green_blink;
  reg [1:0] state;
- reg clk_1s_r;
- wire sec_pulse;
-initial
-	begin
-		$dumpfile("ok");
-		$dumpvars();
-	end
- always @(posedge clk_1s) begin
-     clk_1s_r <= clk_1s;
+ reg [5:0] red_time;
+ reg [5:0] yellow_time;
+ reg [5:0] green_time;
+ reg [1:0] temp;
+ reg [1:0] lamp;
+ clk_gen_1s u_clk_gen(clk_1s);
+ led u_red(clk_1s,red_blink,red);
+ led u_yellow(clk_1s,yellow_blink,yellow);
+ led u_green(clk_1s,green_blink,green);
+ always@(*)
+ begin
+     if(!en)
+     begin
+         red_time   = 6'd30;
+         yellow_time= 6'd10;
+         green_time = 6'd30;
+         temp = 2'd0;
+     end
  end
- assign sec_pulse = clk_1s && (~clk_1s_r);
- always @(posedge clk_1s) begin
-     if(sec_pulse) begin
+ always@(posedge clk_1s or posedge hold)
+ begin
+     if (hold)
+     begin
+         state <= 2'd0;
+         temp <= 2'd0;
+         lamp <= 2'd3;
+     end
+     else if(en)
+     begin
+         if(temp == 2'd0)
+         begin
+             temp <= 2'd1;
+             state <= 2'd0;
+             red_time <= 6'd30;
+         end
+         else
+         begin
+             case(state)
+                 2'd0: 
+                 begin
+                     lamp <= 2'd0;
+                     if(red_time > 0)
+                         red_time <= red_time - 1'd1;
+                     else
+                     begin
+                         state <= 2'd1; 
+                         yellow_time <= 6'd10;
+                     end
+                 end
+                 2'd1: 
+                 begin
+                     lamp <= 2'd1;
+                     if(yellow_time > 0)
+                         yellow_time <= yellow_time - 1'd1;
+                     else
+                     begin
+                         state <= 2'd2; 
+                         green_time <= 6'd30;
+                     end
+                 end
+                 2'd2: 
+                 begin
+                     lamp <= 2'd2;
+                     if(green_time > 0)
+                         green_time <= green_time - 1'd1;
+                     else
+                     begin
+                         state <= 2'd1; 
+                         yellow_time <= 6'd10;
+                     end
+                 end
+             endcase
+         end
+     end
+ end
+ always@(*)
+ begin
+     red_blink = 1'b0;
+     yellow_blink = 1'b0;
+     green_blink = 1'b0;
+     if(en)
+     begin
          case(state)
-             0: begin
-                 red_en <= 1'b1;
-                 green_en <= 1'b0;
-                 yellow_en <= 1'b0;
-                 if(cnt == 6'd29) begin
-                     cnt <= 6'd0;
-                     state <= 2'd1;
-                 end
-                 else begin
-                     cnt <= cnt + 1'd1;
-                 end
-             end
-             1: begin
-                 red_en <= 1'b0;
-                 green_en <= 1'b0;
-                 yellow_en <= 1'b1;
-                 if(cnt == 6'd9) begin
-                     cnt <= 6'd0;
-                     state <= 2'd2;
-                 end
-                 else begin
-                     cnt <= cnt + 1'd1;
-                 end
-             end
-             2: begin
-                 red_en <= 1'b0;
-                 green_en <= 1'b1;
-                 yellow_en <= 1'b0;
-                 if(cnt == 6'd29) begin
-                     cnt <= 6'd0;
-                     state <= 2'd0;
-                 end
-                 else begin
-                     cnt <= cnt + 1'd1;
-                 end
-             end
-             default: begin
-                 state <= 2'd0;
-                 cnt <= 6'd0;
-             end
+             2'd0: red_blink = 1'b0;    
+             2'd1: yellow_blink = 1'b1; 
+             2'd2: green_blink = 1'b0;  
          endcase
      end
  end
  initial begin
-     #12000;
-     $stop;
+     $dumpfile("wave.vcd");
+     $dumpvars(0,top_tb);
+     hold = 1'b1;
+     en = 1'b0;
+     #10 hold = 1'b0;
+     #10 en = 1'b1;
  end
  endmodule

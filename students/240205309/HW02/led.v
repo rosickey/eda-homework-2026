@@ -1,16 +1,6 @@
-module led(
-    input en,
-    input clk_1s,
-    output reg led_out
-);
-
-always @(*) begin
-    if(!en) begin
-        led_out = 1'b0;
-    end
-    else begin
-        led_out = clk_1s;
-    end
-end
-
+module led(clk_1s,blink,out);
+	input clk_1s,blink;
+	output out;
+	wire out;
+	assign out=blink?clk_1s:1'b1;
 endmodule
