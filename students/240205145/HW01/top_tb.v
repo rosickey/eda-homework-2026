@@ -1,24 +1,32 @@
-module test_led;
-	wire clk;
-    	reg [7:0] led_input;
-    	wire [7:0] led_output;
-    	clk_gen u_clk_gen (clk);
-    	led u_led0 (led_input[0], led_output[0]);
-    	led u_led1 (led_input[1], led_output[1]);
-    	led u_led2 (led_input[2], led_output[2]);
-    	led u_led3 (led_input[3], led_output[3]);
-    	led u_led4 (led_input[4], led_output[4]);
-    	led u_led5 (led_input[5], led_output[5]);
-    	led u_led6 (led_input[6], led_output[6]);
-    	led u_led7 (led_input[7], led_output[7]);
-    	always @(posedge clk)
-    	led_input <= {led_input[6:0], led_input[7]};
-    	initial begin
-		led_input = 8'b00000001;
-        	$dumpfile("done");
-        	$dumpvars();
-        	$monitor("Time: %0d ns clk = %b LED = %b", $time, clk, led_output);
-        	#200;
-        	$finish;
-    	end
+module top_tb;
+	wire       clk;
+	wire       carry_out;
+	wire [9:0] q;
+	wire led0, led1, led2, led3, led4, led5, led6, led7;
+	reg  reset;
+
+	clk_gen u_clk_gen(clk);
+	cd4017 u_cd4017(clk, reset, 1'b0, carry_out, q);
+
+	led u_led0(q[0], led0);
+	led u_led1(q[1], led1);
+	led u_led2(q[2], led2);
+	led u_led3(q[3], led3);
+	led u_led4(q[4], led4);
+	led u_led5(q[5], led5);
+	led u_led6(q[6], led6);
+	led u_led7(q[7], led7);
+
+	initial
+	begin
+		reset = 1'b1;
+		#25 reset = 1'b0;
+	end
+
+	initial
+	begin
+		$dumpfile("top_tb.vcd");
+		$dumpvars(0, top_tb);
+		#300 $finish;
+	end
 endmodule
