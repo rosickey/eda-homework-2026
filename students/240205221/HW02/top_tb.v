@@ -1,58 +1,68 @@
-`timescale 1ms/1ms
+`timescale 1s/100ms
+
+//----------------------------------------------------------------------
+// 文件名：top_tb.v
+// 功能  ：HW02 简易交通灯仿真。实例化 1 个 clk_gen_1s 和 3 个 led，
+//         绿灯常亮 30s，黄灯闪亮 10s（一次闪亮周期 1s），红灯常亮 30s，
+//         70s 为一个循环
+//----------------------------------------------------------------------
 module top_tb;
-        wire clk;
-        wire red,yellow,green;
-        reg red_1,yellow_1,green_1;
-        reg [1:0] s;
-        reg [6:0] t;
+    wire clk;
 
-        clk_gen_1s u_clk(clk);
+    reg  P_green;
+    reg  P_yellow;
+    reg  P_red;
 
-        led u1(red_1,red);
-        led u2(green_1,green);
-        led u3(yellow_1,yellow);
+    wire Q_green;
+    wire Q_yellow;
+    wire Q_red;
 
-always @(posedge clk)
+    clk_gen_1s u_clk_gen_1s(clk);
+
+    led u_led_green (P_green,  Q_green);
+    led u_led_yellow(P_yellow, Q_yellow);
+    led u_led_red   (P_red,    Q_red);
+
+    // 绿灯：0s 亮，30s 灭，70s 再亮，每次常亮 30s
+    initial begin
+        P_green = 1'b1;
+        forever
         begin
-            t <= t + 7'd1;
-        case(s)
-            2'd0: begin 
-        if(t >= 7'd29) begin 
-            s <= 2'd1;
-            t <= 7'd0;
+            #30 P_green = 1'b0;
+            #40 P_green = 1'b1;
         end
     end
-            2'd1: begin 
-        if(t >= 7'd29) begin
-            s <= 2'd2;
-            t <= 7'd0;
-        end
-    end
-            2'd2: begin
-        if(t >= 7'd9) begin
-            s <= 2'd0;
-            t <= 7'd0;
-        end
-    end
-endcase
-end
 
-        always @(*) begin
-            red_1 = 1'b0;
-            yellow_1 = 1'b0;
-             green_1 = 1'b0;
-        case(s)
-            2'd0: red_1 = 1'b1;
-            2'd1: green_1 = 1'b1;
-            2'd2: yellow_1 = clk;
-    endcase
-end
-
-        initial begin
-            $dumpfile("done");
-            $dumpvars();
-            s = 2'd0;
-            t = 7'd0;
-            #120000 $finish();
+    // 黄灯：30s 起闪亮 10 次（亮 0.5s、灭 0.5s，一次闪亮周期 1s），
+    //       再等 60s 到下个周期的 30s 处
+    initial begin
+        P_yellow = 1'b0;
+        #30;
+        forever
+        begin
+            repeat (10)
+            begin
+                @(posedge clk) P_yellow = 1'b1;
+                @(negedge clk) P_yellow = 1'b0;
+            end
+            #60;
         end
+    end
+
+    // 红灯：40s 亮，常亮 30s，70s 灭
+    initial begin
+        P_red = 1'b0;
+        #40 P_red = 1'b1;
+        forever
+        begin
+            #30 P_red = 1'b0;
+            #40 P_red = 1'b1;
+        end
+    end
+
+    initial begin
+        $dumpfile("top_tb.vcd");
+        $dumpvars;
+        #150 $finish;
+    end
 endmodule

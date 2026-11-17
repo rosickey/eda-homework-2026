@@ -1,6 +1,17 @@
-`timescale 1ms/1ms
-module led(clk,out);
-        input clk;
-        output out;
-        assign out=clk;        
+`timescale 1s/100ms
+
+//----------------------------------------------------------------------
+// 文件名：led.v
+// 说明  ：课堂订正的 led.v 模块，输入 P 变化时把 P 送到输出 Q
+//----------------------------------------------------------------------
+module led(P, Q);
+    input  P;
+    wire   P;
+    output Q;
+    reg    Q;
+
+    always @(P)
+    begin
+        Q <= P;
+    end
 endmodule
