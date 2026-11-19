@@ -37,7 +37,7 @@ module top_tb;
 
     initial begin
         num = 8'd0;
-        $dumpfile("wave.vcd");
+        $dumpfile("report.vcd");
         $dumpvars(0, top_tb);
         reset = 1;
         #3 reset = 0;
