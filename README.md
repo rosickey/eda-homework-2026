@@ -6,53 +6,27 @@
 
 **第一次提交只注册身份；注册通过后，再提交课程作业。** 本说明不包含具体实验题目，`HW01`、`HW02` 及文件名均为提交流程示例，不代表已发布的作业。具体任务、软件版本、提交格式和截止时间以教师发布的要求为准。
 
-## 第一次提交没有通过的同学，请尽快修改
+## [第一次提交](https://github.com/rosickey/eda-homework-2026#%E4%BA%8Cwindows-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C)
 
-# EDA 学生注册 PR 错误处理简表
+> [第一次提交成绩](https://github.com/rosickey/eda-homework-2026/tree/main/grades/registration-grades.md)
 
-| PR | 学号 | 姓名 | 原因 |
-| --- | --- | --- | --- |
-| 259 | 248205501 | 韩晨 | 分支名、目录名和 student_id 必须相同 |
-
-## 正确格式
-
-```yaml
-student_id: "240205123"
-name: "张三"
-github_username: "zhangsan123"
-```
-
-文件位置：
-
-```text
-students/240205123/.student.yml
-```
-
-分支名称：
-
-```text
-240205123
-```
-
-> `.student.yml` 内容错误时，直接修改后 `commit`、`push` 即可，不需要重新创建 PR。
-> 分支名错误时，建议用本人9位学号重新建立分支并创建新 PR，同时关闭原错误 PR。
-> 同一学生只保留一个正确的注册 PR。
-
-# 以下同学未提交
-
-| 学号 | 姓名 | 班级 |
-| --- | --- | --- |
-| 240205218 | 谢煌 | 2402052 |
-| 240205246 | 马浩文 | 2402052 |
-| 240205327 | 朱志鹏 | 2402053 |
-| 240205345 | 单捷 | 2402053 |
-| 240205417 | 谌鸿亮 | 2402054 |
-| 240205437 | 李寒峰 | 2402054 |
-| 240205442 | 毛振杰 | 2402054 |
-| 240205445 | 陈博睿 | 2402054 |
 
 ## [第一次作业](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW01)
 
+> [HW01成绩](https://github.com/rosickey/eda-homework-2026/tree/main/grades/HW01-grades.md)
+
+
+## [第二次作业](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW02)
+
+> [HW02成绩](https://github.com/rosickey/eda-homework-2026/tree/main/grades/HW02-grades.md)
+
+## [第三次作业](https://github.com/rosickey/eda-homework-2026/tree/main/assignments/HW03)
+
+
+- 1.作业严格按照文件名规则提交！
+- 2.代码风格严格按照课本统一标准。例如，不能使用“.” .clk这种形式表示参量
+- 3.不符合merge合并都已经reverse撤销
+- 4.请严格按照上述要求修改，检查后，再次慎重提交PR
 
 ## 一、必须遵守的规则
 
@@ -72,7 +46,6 @@ students/240205123/.student.yml
 - 注册通过后，不得自行修改、删除或重命名 `.student.yml`。
 - 作业 PR 统一提交到教师仓库的 `main`；不要直接向教师仓库的 `main` 推送。
 
-这是课程提交规范；自动限制需要教师启用配套检查和分支保护后才生效。检查通过也不代表作业内容正确，仍需教师审核。
 
 > 下文的 `240201101`、`王明`、`wangming123` 都是示例。执行命令前，请替换为自己的信息。即使已在其他课程注册，本课程也需要在本仓库单独完成注册；可以继续使用同一个本人 GitHub 账号。
 
@@ -295,9 +268,29 @@ git push -u origin 240201101
 
 在 **Files changed** 中确认只新增本人 `.student.yml`，再提交 PR，等待教师核对姓名、学号、PR 作者和 Fork 所有者。
 
-教师合并注册 PR 后，才视为本课程身份绑定完成。集中注册阶段可能还没有自动检查，不能以“没有检查”为由判断注册成功。
+#### 正确格式
 
-如需更改姓名、学号或 GitHub 账号，请联系教师，不要自行修改已合并的身份文件。
+```yaml
+student_id: "240205123"
+name: "张三"
+github_username: "zhangsan123"
+```
+
+文件位置：
+
+```text
+students/240205123/.student.yml
+```
+
+分支名称：
+
+```text
+240205123
+```
+
+> `.student.yml` 内容错误时，直接修改后 `commit`、`push` 即可，不需要重新创建 PR。
+> 分支名错误时，建议用本人9位学号重新建立分支并创建新 PR，同时关闭原错误 PR。
+> 同一学生只保留一个正确的注册 PR。
 
 ## 四、正常提交课程作业
 
