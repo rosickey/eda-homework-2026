@@ -1,17 +1,27 @@
 module top_tb;
-    wire clk;
-    wire cout, tens_cout;
-    wire [9:0] q, tens_q;
-    clk_gen clk_gen1(clk);
-    cd4017 ones_place(clk, 1'b0, 1'b0, cout, q);
-    cd4017 tens_place(cout, 1'b0, 1'b0, tens_cout, tens_q);
+		wire clk;
+		wire [9:0] q_unit,q_ten;
+		wire carry_unit,carry_ten;
+		wire inhibit_ten;
+		reg reset;
 
-    initial
-    begin
-        $dumpfile("counter100.vcd");
-        $dumpvars();
+		assign inhibit_ten=~carry_unit;
 
-        #30000 $finish;
-    end
+		clk_gen u_clk(clk);
+		cd4017 u_unit(clk,reset,1'b0,carry_unit,q_unit);
+		cd4017 u_ten(clk,reset,inhibit_ten,carry_ten,q_ten);
 
+		initial
+		begin
+			$dumpfile("wave.vcd");
+			$dumpvars(0,top_tb);
+			reset=1'b1;
+			#15 reset=1'b0;
+			#2050 $finish;
+		end
+
+		initial
+		begin
+			$monitor("time=%0t q_unit=%b q_ten=%b carry_unit=%b",$time,q_unit,q_ten,carry_unit);
+		end
 endmodule
