@@ -12,23 +12,11 @@ module top_tb;
 
 	assign inhibit_tens = ~carry_units;
 
-	clk_gen u_clk_gen(.clk(clk));
+	clk_gen u_clk_gen(clk);
 
-	cd4017 u_units(
-		.clk(clk),
-		.reset(reset),
-		.inhibit(1'b0),
-		.carry_out(carry_units),
-		.q(q_units)
-	);
+	cd4017 u_units(clk, reset, 1'b0, carry_units, q_units);
 
-	cd4017 u_tens(
-		.clk(clk),
-		.reset(reset),
-		.inhibit(inhibit_tens),
-		.carry_out(carry_tens),
-		.q(q_tens)
-	);
+	cd4017 u_tens(clk, reset, inhibit_tens, carry_tens, q_tens);
 
 	initial begin
 		$dumpfile("done");
