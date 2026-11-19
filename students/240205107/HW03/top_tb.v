@@ -23,7 +23,7 @@ module top_tb;
 		inhibit = 0;
 		#25;
 		reset = 0;
-		#1000;
+		#5000;
 		$finish;
 	end
 endmodule
