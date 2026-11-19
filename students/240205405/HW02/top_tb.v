@@ -1,27 +1,85 @@
-﻿module test_led;
-	wire clk; 
-	wire [9:0] q; 
-	wire carry_out;
-	wire led0,led1,led2,led3,led4,led5,led6,led7; 
-	reg reset;
-	reg inhibit;
+`timescale 1ms / 1ms
+module top_tb;
+		wire clk_1s;
+		wire red, yellow, green;
+		reg red_in, yellow_in, green_in;
+		clk_gen_1s u_clk_1s(clk_1s);
 
-	clk_gen u_clk(clk);
+		led u_red(red_in,red);
+		led u_yellow(yellow_in,yellow);
+		led u_green(green_in,green);
 
-	cd4017 u_cd4017(clk,reset,inhibit,carry_out,q);
-		led u_led0(q[0],led0);
-		led u_led1(q[1],led1); 
-		led u_led2(q[2],led2); 
-		led u_led3(q[3],led3);
-		led u_led4(q[4],led4); 
-		led u_led5(q[5],led5); 
-		led u_led6(q[6],led6); 
-		led u_led7(q[7],led7);
-	initial begin
-		$dumpfile("test_led.v");
-		$dumpvars(0,test_led); 
-		reset=1'b1;
-		 inhibit=1'b0;
-		#10 reset=1'b0;
-		#230 $finish; end
+		reg [6:0] cnt;
+		reg [1:0] state;
+		parameter S_RED    = 2'd0;
+		parameter S_GREEN  = 2'd1;
+		parameter S_YELLOW = 2'd2;
+	initial 
+	begin  
+		$dumpfile("wave.vcd");    
+		$dumpvars(0,top_tb);    
+		cnt = 7'd0;    
+		state = S_RED;    
+		$monitor("time=%0t, red=%b, yellow=%b, green=%b, state=%0d",$time,red,yellow,green,state);    
+		#800000 $finish;
+	end
+		always @(posedge clk_1s) begin    
+			case(state)       
+				S_RED: begin           
+					if(cnt == 7'd29) begin                   
+						cnt <= 7'd0;               
+						state <= S_GREEN;            
+			end            
+			else begin                
+				cnt <= cnt + 1'b1;            
+			end        
+	end       
+		S_GREEN: begin            
+			if(cnt == 7'd29) begin                   
+				cnt <= 7'd0;                
+				state <= S_YELLOW;            
+			end            
+			else begin                
+				cnt <= cnt + 1'b1;            
+			end       
+	end        
+		S_YELLOW: begin            
+			if(cnt == 7'd9) begin                    
+				cnt <= 7'd0;               
+				state <= S_RED;            
+			end            
+			else begin                
+				cnt <= cnt + 1'b1;            
+			end        
+	end        
+			default: begin           
+				cnt <= 7'd0;            
+				state <= S_RED;        
+			end    
+		endcase
+	end
+		always @(*) begin    
+			case(state)        
+				S_RED: begin            
+					red_in = 1'b1;           
+					yellow_in = 1'b0;            
+					green_in = 1'b0;        
+			end        
+				S_GREEN: begin            
+					red_in = 1'b0;            
+					yellow_in = 1'b0;            
+					green_in = 1'b1;        
+			end        
+				S_YELLOW: begin            
+					red_in = 1'b0;            
+					yellow_in = clk_1s;              
+					green_in = 1'b0;        
+			end        
+			default: begin            
+				red_in = 1'b0;            
+				yellow_in = 1'b0;            
+				green_in = 1'b0;       
+			end    
+		endcase
+	end
 endmodule
