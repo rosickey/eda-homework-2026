@@ -63,6 +63,6 @@ module top_tb;
     initial begin
         $dumpfile("top_tb.vcd");
         $dumpvars;
-        #150 $finish;
+        #72 $finish;
     end
 endmodule
