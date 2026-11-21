@@ -1,0 +1,105 @@
+[1mdiff --git a/students/240205443/HW02/clk_gen_1s.v b/students/240205443/HW02/clk_gen_1s.v[m
+[1mnew file mode 100644[m
+[1mindex 0000000..79ea5a5[m
+[1m--- /dev/null[m
+[1m+++ b/students/240205443/HW02/clk_gen_1s.v[m
+[36m@@ -0,0 +1,10 @@[m
+[32m+[m[32m`timescale 1ms / 1ms[m
+[32m+[m[32mmodule clk_gen_1s(clk_1s);[m
+[32m+[m	[32moutput clk_1s;[m
+[32m+[m	[32mreg clk_1s;[m
+[32m+[m	[32minitial[m
+[32m+[m	[32mbegin[m
+[32m+[m		[32mclk_1s<=0;[m
+[32m+[m		[32mforever #500 clk_1s=~clk_1s;[m
+[32m+[m	[32mend[m
+[32m+[m[32mendmodule[m
+\ No newline at end of file[m
+[1mdiff --git a/students/240205443/HW02/led.v b/students/240205443/HW02/led.v[m
+[1mnew file mode 100644[m
+[1mindex 0000000..84fa346[m
+[1m--- /dev/null[m
+[1m+++ b/students/240205443/HW02/led.v[m
+[36m@@ -0,0 +1,9 @@[m
+[32m+[m[32m`timescale 1ms / 1ms[m
+[32m+[m[32mmodule led(clk,out);[m
+[32m+[m	[32minput wire clk;[m
+[32m+[m	[32moutput reg out;[m
+[32m+[m	[32malways@(*)[m
+[32m+[m		[32mbegin[m
+[32m+[m			[32mout=clk;[m
+[32m+[m		[32mend[m
+[32m+[m[32mendmodule[m
+\ No newline at end of file[m
+[1mdiff --git a/students/240205443/HW02/report.png b/students/240205443/HW02/report.png[m
+[1mnew file mode 100644[m
+[1mindex 0000000..d3fea06[m
+Binary files /dev/null and b/students/240205443/HW02/report.png differ
+[1mdiff --git a/students/240205443/HW02/top_tb.v b/students/240205443/HW02/top_tb.v[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9d03ce2[m
+[1m--- /dev/null[m
+[1m+++ b/students/240205443/HW02/top_tb.v[m
+[36m@@ -0,0 +1,62 @@[m
+[32m+[m[32m`timescale 1ms / 1ms[m
+[32m+[m[32mmodule top_tb;[m
+[32m+[m	[32mwire clk_1s;[m
+[32m+[m	[32mreg r_in, g_in;[m
+[32m+[m	[32mwire y_in;[m
+[32m+[m	[32mwire r_out, g_out, y_out;[m
+[32m+[m	[32minteger timer;[m
+[32m+[m	[32mclk_gen_1s clk_gen_1s_inst (clk_1s);[m
+[32m+[m		[32mled led_red (r_in, r_out);[m
+[32m+[m		[32mled led_green (g_in, g_out);[m
+[32m+[m		[32mled led_yellow (y_in, y_out);[m
+[32m+[m	[32massign y_in= ((timer > 30 && timer <= 40)||(timer > 70 && timer <= 80)) ? clk_1s : 1'b0;[m
+[32m+[m	[32minitial[m
+[32m+[m		[32mbegin[m
+[32m+[m			[32m$dumpfile("test");[m
+[32m+[m			[32m$dumpvars(0,top_tb);[m
+[32m+[m			[32mtimer = 0;[m
+[32m+[m			[32mr_in = 0;[m
+[32m+[m			[32mg_in = 0;[m
+[32m+[m			[32m#10;[m[41m [m
+[32m+[m			[32mforever[m
+[32m+[m				[32mbegin[m
+[32m+[m					[32m@(posedge clk_1s);[m[41m [m
+[32m+[m					[32mtimer = timer + 1;[m
+[32m+[m					[32mif (timer > 0 && timer <= 30)[m[41m [m
+[32m+[m						[32mbegin[m
+[32m+[m							[32mr_in = 1'b1;[m
+[32m+[m							[32mg_in = 1'b0;[m
+[32m+[m						[32mend[m
+[32m+[m							[32melse if (timer > 30 && timer <= 40)[m
+[32m+[m								[32mbegin[m
+[32m+[m									[32mr_in = 1'b0;[m
+[32m+[m									[32mg_in = 1'b0;[m
+[32m+[m								[32mend[m
+[32m+[m									[32melse if (timer > 40 && timer <= 70)[m
+[32m+[m										[32mbegin[m
+[32m+[m											[32mr_in = 1'b0;[m
+[32m+[m											[32mg_in = 1'b1;[m
+[32m+[m										[32mend[m
+[32m+[m										[32melse if (timer > 70 && timer <= 80)[m
+[32m+[m											[32mbegin[m
+[32m+[m												[32mr_in = 1'b0;[m[41m [m
+[32m+[m												[32mg_in = 1'b0;[m[41m [m
+[32m+[m											[32mend[m
+[32m+[m												[32melse if (timer > 80)[m
+[32m+[m													[32mbegin[m
+[32m+[m														[32mtimer = 1;[m
+[32m+[m														[32mr_in = 1'b1;[m
+[32m+[m														[32mg_in = 1'b0;[m
+[32m+[m													[32mend[m
+[32m+[m				[32mend[m
+[32m+[m		[32mend[m
+[32m+[m	[32minitial[m
+[32m+[m		[32mbegin[m
+[32m+[m			[32m#160000 $finish();[m
+[32m+[m		[32mend[m
+[32m+[m[32mendmodule[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m
