@@ -1,0 +1,19 @@
+module top_tb;
+    reg reset;
+    wire clk;
+    wire carry_units;
+    wire carry_tens;
+    wire [9:0] q_units;
+    wire [9:0] q_tens;
+    clk_gen u_clk_gen(clk);
+    cd4017 u_units(clk,reset,1'b0,carry_units,q_units);
+    cd4017 u_tens(clk,reset,~carry_units,carry_tens,q_tens);
+    initial
+    begin
+        $dumpfile("ok.vcd");
+        $dumpvars();
+        reset=1;
+        #5 reset=0;
+        #2400 $finish;
+    end
+endmodule
