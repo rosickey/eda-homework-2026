@@ -7,3 +7,4 @@ module clk_gen(clk);
 			forever #10 clk=~clk;
 		end
 endmodule
+
