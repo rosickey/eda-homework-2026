@@ -1,7 +1,7 @@
 module led(
-    input clk,      // 1s闪烁时钟
-    input en,       // 使能
-    input blink_en, // 1：闪烁模式；0：常亮模式
+    input clk,      
+    input en,      
+    input blink_en
     output reg out
 );
 
