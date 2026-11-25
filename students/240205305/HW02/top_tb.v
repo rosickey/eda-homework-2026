@@ -1,53 +1,82 @@
 `timescale 1ms/1ms
-module top_tb();
+module traffic_led;
 wire clk;
-wire red_q, green_q, yellow_q;
-reg rled, gled, yled;
-	clk_gen_1s u_clk_gen_1s(clk);
-	led u_red  (rled,   red_q);
-	led u_green(gled,   green_q);
-	led u_yellow(yled,  yellow_q);
-		localparam S_RED    = 2'd0;
-		localparam S_GREEN  = 2'd1;
-		localparam S_YELLOW = 2'd2;
-	reg [1:0] cur_state;
-	reg [5:0] cnt;
-	initial 
-	begin
-    		$dumpfile("led3");
-    		$dumpvars();
-    			cur_state = S_RED;
-			cnt = 6'd0;
-	end
+reg [1:0] evt = 2'b00;  
+reg [7:0] cnt = 8'd0;
+reg red, green, yellow;
+clk_gen_1s u_clk(clk);
+localparam EVENT_RED    = 2'b00;
+localparam EVENT_GREEN  = 2'b01;
+localparam EVENT_YELLOW = 2'b10;
 always @(posedge clk) begin
-    case(cur_state)
-        S_RED: begin
-            if(cnt == 6'd30) begin cnt <= 6'd0; cur_state <= S_GREEN;  end
-            else cnt <= cnt + 1'd1;
+    case(evt)
+        EVENT_RED: begin
+            if(cnt < 8'd29) begin
+                cnt <= cnt + 1'd1;
+            end else begin
+                cnt <= 8'd0;
+                evt <= EVENT_GREEN;
+            end
         end
-        S_GREEN: begin
-            if(cnt == 6'd30) begin cnt <= 6'd0; cur_state <= S_YELLOW; end
-            else cnt <= cnt + 1'd1;
+        EVENT_GREEN: begin
+            if(cnt < 8'd29) begin
+                cnt <= cnt + 1'd1;
+            end else begin
+                cnt <= 8'd0;
+                evt <= EVENT_YELLOW;
+            end
         end
-        S_YELLOW: begin
-            if(cnt == 6'd10) begin cnt <= 6'd0; cur_state <= S_RED;    end
-            else cnt <= cnt + 1'd1;
+        EVENT_YELLOW: begin
+            if(cnt < 8'd9) begin
+                cnt <= cnt + 1'd1;
+            end else begin
+                cnt <= 8'd0;
+                evt <= EVENT_RED;
+            end
+        end
+        default: begin
+            evt <= EVENT_RED;
+            cnt <= 8'd0;
         end
     endcase
 end
 always @(*) begin
-		rled = 1'b0;
-       		gled = 1'b0;
-        	yled = 1'b0;
-	case(cur_state)
-        	S_RED:    rled = 1'b1;
-        	S_GREEN:  gled = 1'b1;
-        	S_YELLOW: yled = clk;
-        endcase
+    case(evt)
+        EVENT_RED: begin
+            red = 1'b1;
+            green = 1'b0;
+            yellow = 1'b0;
+        end
+        EVENT_GREEN: begin
+            red = 1'b0;
+            green = 1'b1;
+            yellow = 1'b0;
+        end
+        EVENT_YELLOW: begin
+            red = 1'b0;
+            green = 1'b0;
+            yellow = clk;
+        end
+        default: begin
+            red = 1'b1;
+            green = 1'b0;
+            yellow = 1'b0;
+        end
+    endcase
 end
-	initial
-	begin
-    		#100000;
-    		$finish;
+
+initial begin
+    $dumpfile("led3.vcd");
+    $dumpvars(0,traffic_led);
+    #100000 $finish;
+end
+endmodule
+
+module clk_gen_1s(clk);
+output reg clk;
+initial
+begin
+clk=0;
+forever #500 clk=~clk;
 end
 endmodule
