@@ -64,14 +64,12 @@ always @(*) begin
         end
     endcase
 end
-
 initial begin
     $dumpfile("led3.vcd");
     $dumpvars(0,traffic_led);
     #100000 $finish;
 end
 endmodule
-
 module clk_gen_1s(clk);
 output reg clk;
 initial
